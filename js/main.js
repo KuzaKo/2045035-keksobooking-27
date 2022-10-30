@@ -1,50 +1,141 @@
-// alert(123);
+const OFFERS_COUNT = 10;
+
+const titles = [
+  'Сдается 3-комнатная квартира',
+  'Сдам квартиру в доме',
+  'Недорогое жильё от 1 000 ₽ за сутки',
+  'Люкс с сауной и джакузи',
+  'Простая и светлая квартира',
+  'Уникальное жильё в центре Москвы',
+  'Дофт судия в центре',
+  'Студия с высокими потолками',
+];
+
+const Location = {
+  MIN_LATITUDE: 35.65,
+  MAX_LATITUDE: 35.7,
+  MIN_LONGITUDE: 139.7,
+  MAX_LONGITUDE: 139.8,
+};
+
+const PRICE = {
+  MIN: 1,
+  MAX: 100000,
+};
+
+const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+
+const rooms = {
+  MIN: 1,
+  MAX: 4,
+};
+
+const guests = {
+  MIN: 1,
+  MAX: 4,
+};
+
+const CHECKINTIME = ['12:00', '13:00', '14:00'];
+
+const CHECKOUTTIME = ['12:00', '13:00', '14:00'];
+
+const FEATURESS = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+
+const descriptions = [
+  'Чудесная 3-комнатная квартира в новом современном доме',
+  'Ремонт в уникальном авторском стиле.',
+  'Квартира с мебелью, вывоз невозможен.',
+  'Огороженная, охраняемая территория.',
+  'Подземный паркинг, машиноместо оплачивается отдельно.',
+  'Окна выходят на обе стороны.',
+  'Есть гардеробная комната.',
+  'В наличии: посудомоечная машина, холодильник',
+  'Есть приточно-вытяжная система вентиляции и кондиционирования, кондиционер.',
+  'душевая кабина, ванна, стиральная машина',
+  'Телевизор, высокоскоростной интернет.',
+  'Есть презентации в pdf на русском или английском для партнеров.',
+  'Пол с подогревом, система приточной вентиляции, климат контроль.',
+  'Красивый вид на центр Москвы.',
+  'В квартире никто не жил!',
+  'Комплекс с огороженной-охраняемой территорией, видеонаблюдением, консьержем и подземным паркингом',
+];
+
+const PHOTOSS = [
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
+];
+
+function getRandomPositiveInteger(a, b) {
+  if (a < 0 || b < 0) {
+    return NaN;
+  }
+  const lower = Math.ceil(Math.min(a, b));
+  const upper = Math.floor(Math.max(a, b));
+  const result = Math.random() * (upper - lower + 1) + lower;
+  return Math.floor(result);
+}
+
+function getRandomPositiveFloat(a, b, digits = 1) {
+  if (a < 0 || b < 0 || digits < 0) {
+    return NaN;
+  }
+  const lower = Math.min(a, b);
+  const upper = Math.max(a, b);
+  const result = Math.random() * (upper - lower) + lower;
+  return +result.toFixed(digits);
+}
+
+const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
+
+const getRandomLatitude = () => getRandomPositiveFloat(Location.MIN_LATITUDE, Location.MAX_LATITUDE, 5);
+
+const getRandomLongitude = () => getRandomPositiveFloat(Location.MIN_LONGITUDE, Location.MAX_LONGITUDE, 5);
 
 
-// const titles = [
-//   'Загаловок 1',
-//   'Загаловок 2',
-//   'Загаловок 3',
-//   'Загаловок 4'
-// ];
+const createAuthor = (index) => ({
+  avatar: `img/avatars/user${index.toString().padStart(2, '0')}.png`,
+});
 
-// const photos = [
-//   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-//   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-//   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
-// ];
+const createOffer = () => ({
+  title: getRandomArrayElement(titles),
+  addres: `${getRandomLatitude()}, ${getRandomLongitude()}`,
+  price: getRandomPositiveInteger(PRICE.MIN, PRICE.MAX),
+  type: getRandomArrayElement(TYPES),
+  rooms: getRandomPositiveInteger(rooms.MIN, rooms.MAX),
+  guests: getRandomPositiveInteger(guests.MIN, guests.MAX),
+  checkin: getRandomArrayElement(CHECKINTIME),
+  checkout: getRandomArrayElement(CHECKOUTTIME),
+  features: FEATURESS.slice(0, getRandomPositiveInteger(0, FEATURESS.length)),
+  description: descriptions.slice(0, getRandomPositiveInteger(0, descriptions.length)),
+  photos: Array.from({length: getRandomPositiveInteger(0, 10)}, () => getRandomArrayElement(PHOTOSS)),
+});
 
-// function getRandomPositiveInteger(a, b) {
-//   if (a < 0 || b < 0) {
-//     return NaN;
-//   }
-//   const lower = Math.ceil(Math.min(a, b));
-//   const upper = Math.floor(Math.max(a, b));
-//   const result = Math.random() * (upper - lower + 1) + lower;
-//   return Math.floor(result);
-// }
+const createLocation = () => ({
+  lat: getRandomLatitude(),
+  lng: getRandomLongitude(),
+});
 
-// getRandomPositiveInteger(1,3);
+const createObject = (index) => ({
+  author: createAuthor(index),
+  offer: createOffer(),
+  location: createLocation(),
+});
 
-// function getRandomPositiveFloat(a, b, digits = 1) {
-//   if (a < 0 || b < 0 || digits < 0) {
-//     return NaN;
-//   }
-//   const lower = Math.min(a, b);
-//   const upper = Math.max(a, b);
-//   const result = Math.random() * (upper - lower) + lower;
-//   return +result.toFixed(digits);
-// }
+const getObjects = () => Array.from({length: OFFERS_COUNT}, (_, offerindex) => createObject(offerindex + 1));
 
-// const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
+
+getObjects();
+
+
+// В файле main.js на основе написанных в прошлом задании вспомогательных функций напишите необходимые функции для создания массива из 10 сгенерированных JS-объектов. Каждый объект массива — описание похожего объявления неподалёку.
+
+// Структура каждого объекта должна быть следующей:
 
 // author, объект — описывает автора. Содержит одно поле:
+
 // avatar, строка — адрес изображения вида img/avatars/user{{xx}}.png, где {{xx}} — это число от 1 до 10. Перед однозначными числами ставится 0. Например, 01, 02...10. Адреса изображений не повторяются.
 // offer, объект — содержит информацию об объявлении. Состоит из полей:
-
-// const createAuthor = (index) => ({
-//   avatar: `img/avatars/user${index.toString().padStart(2, '0')}.png`,
-// });
 
 // title, строка — заголовок предложения. Придумайте самостоятельно.
 // address, строка — адрес предложения. Для простоты пусть пока составляется из географических координат по маске {{location.lat}}, {{location.lng}}.
@@ -58,36 +149,6 @@
 // description, строка — описание помещения. Придумайте самостоятельно.
 // photos, массив строк — массив случайной длины из значений: https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg, https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg, https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg.
 
-
-// const createOffer = () => ({
-//   title: getRandomArrayElement(titles),
-//   // address:
-//   photos: getRandomArrayElement(photos)
-// });
-
-// // location, объект — местоположение в виде географических координат. Состоит из двух полей:
-// // lat, число с плавающей точкой — широта, случайное значение от 35.65000 до 35.70000.
-// // lng, число с плавающей точкой — долгота, случайное значение от 139.70000 до 139.80000.
-// // eslint-disable-next-line no-return-assign
-// const createLocation = () => ({
-//   lat: getRandomPositiveFloat(35.65000, 35.70000),
-//   lng: getRandomPositiveFloat(139.70000, 139.80000)
-// });
-
-
-// В файле main.js на основе написанных в прошлом задании вспомогательных функций напишите необходимые функции для создания массива из 10 сгенерированных JS-объектов. Каждый объект массива — описание похожего объявления неподалёку.
-// Структура каждого объекта должна быть следующей:
-
-// const createOblect = () => ({
-//   author: createAuthor,
-//   offer: createOffer,
-//   location: createLocation,
-// });
-
-// createOblect();
-
-// console.log(getRandomPositiveInteger(1,3));
-
-
-// getRandomPositiveFloat();
-
+// location, объект — местоположение в виде географических координат. Состоит из двух полей:
+// lat, число с плавающей точкой — широта, случайное значение от 35.65000 до 35.70000.
+// lng, число с плавающей точкой — долгота, случайное значение от 139.70000 до 139.80000.
