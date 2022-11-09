@@ -108,7 +108,6 @@ const createObject = (index) => ({
 
 const getObjects = () => Array.from({length: OFFERS_COUNT}, (_, offerindex) => createObject(offerindex + 1));
 
-
 getObjects();
 
 export {getObjects, createObject};
