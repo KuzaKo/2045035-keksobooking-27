@@ -1,5 +1,3 @@
-import {createObject } from './data.js';
-
 const typesHome = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -68,9 +66,5 @@ const createCardElement = ({author, offer }) => {
   const mapContainer = document.querySelector('#map-canvas');
   mapContainer.appendChild(cardElement);
 };
-
-createCardElement(
-  createObject(1)
-);
 
 export {createCardElement};

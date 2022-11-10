@@ -1,5 +1,8 @@
-import { getObjects} from './data.js';
+import { getObjects, createObject} from './data.js';
 import { createCardElement } from './card.js';
 
 getObjects();
-createCardElement();
+
+const richCardData = createObject(1);
+
+createCardElement(richCardData);
