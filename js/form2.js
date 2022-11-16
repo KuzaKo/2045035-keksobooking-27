@@ -1,5 +1,5 @@
 const anotherForm = document.querySelector('.ad-form');
-const priceRoom = anotherForm.querySelector('#price');
+const amountPrice = anotherForm.querySelector('#price');
 
 const minPrice = {
   'bungalow': 0,
@@ -15,9 +15,9 @@ const pristine = new Pristine(anotherForm, {
   errorTextClass: 'ad-form__element--invalid'
 }, true);
 
-function validatePrice (value) {
+function validatePrice () {
   const unit = anotherForm.querySelector('[name="type"]:checked');
-  return value.length && parseInt(value) >= minPrice[unit.value];
+  return amountPrice.value >= minPrice[unit.value];
 }
 
 function getPriceErrorMessage () {
@@ -25,11 +25,11 @@ function getPriceErrorMessage () {
   return `Не меньше ${minPrice[unit.value]} штук в одни руки`;
 }
 
-pristine.addValidator(priceRoom, validatePrice, getPriceErrorMessage);
+pristine.addValidator(amountPrice, validatePrice, getPriceErrorMessage);
 
 function onUnitChange () {
-  priceRoom.placeholder = minPrice[this.value];
-  pristine.validate(priceRoom);
+  amountPrice.placeholder = minPrice[this.value];
+  pristine.validate(amountPrice);
 }
 
 anotherForm
